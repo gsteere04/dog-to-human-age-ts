@@ -67,6 +67,7 @@ body {
   }
   
   .output-box {
+    display: flex;
     margin-top: 20px;
     padding: 15px;
     background-color: #2c2c2c; /* Darker background for output */
@@ -75,4 +76,23 @@ body {
     font-size: 16px;
     color: #ffffff; /* White text for output */
   }
+
+  .dog {
+    max-height: 250px;
+  }
+  
+  .text-bubble {
+    position: absolute;
+    bottom: 325px; /* Adjust based on your dog image */
+    left: 35%; /* Adjust based on your layout */
+    background-color: #fff;
+    padding: 10px;
+    border-radius: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    font-size: 16px;
+    color: #333;
+    border: 2px solid #333; /* Optional: adds a border to the text bubble */
+    white-space: nowrap; /* Prevents text from wrapping */
+  }
+  
   

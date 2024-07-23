@@ -1,72 +1,70 @@
-import React, { useState } from "react";
-import "./Calculator.css"
+import React, { useState, useCallback } from "react";
+import dog from './assets/dog.png';
+import "./Calculator.css";
 
 /**
  * Calculator component for calculating human year age of dogs.
  */
-
 const Calculator: React.FC = () => {
-    // State to store age input value.
     const [age, setAge] = useState<number | string>("");
+    const [displayText, setDisplayText] = useState<string>("");
+    const [isAnimating, setIsAnimating] = useState<boolean>(false); // Track animation state
 
-    // State to store the result and display result.
-    const [result, setResult] = useState<number | string>("");
+    // Function to type out text
+    const typeText = useCallback((text: string, speed: number) => {
+        let index = -1;
+        setDisplayText(""); // Reset display text
+        setIsAnimating(true); // Start animation
 
-    /**
-     * Handles the change event for the age input. 
-     * @param {React.ChangeEvent<HTMLInputElement>} event - the input change event
-     */
-    const handleAgeChange = (event: React.ChangeEvent<HTMLInputElement>): void => {
+        const typingInterval = setInterval(() => {
+            setDisplayText(prev => prev + text.charAt(index));
+            index++;
+            if (index >= text.length) {
+                clearInterval(typingInterval);
+                setIsAnimating(false); // End animation
+            }
+        }, speed);
+    }, []);
 
-        // Parses the input to be strictly a number.
+    function handleAgeChange(event: React.ChangeEvent<HTMLInputElement>): void {
         const value = event.target.valueAsNumber;
-
-        // Sets age state, if it is NaN, to be an empty string.  (This fixes NaN error)
         setAge(isNaN(value) ? "" : value);
-    };
+    }
 
-    /**
-     * Handles the change event for the submit button
-     * @param {React.FormEvent<HTMLFormElement>} event - the submit change event
-     */
     const handleSubmit = (event: React.FormEvent<HTMLFormElement>): void => {
-
-        // Prevents default functionality from the submit button
         event.preventDefault();
         console.log("Age in human years:", age);
 
-        // Check to see if the input is a number
         if (typeof age === "number" && age > 0) {
-            
-            // Calculates dog age
             const logAge = Math.log(age);
             const dogAge = 16 * logAge + 31;
-            
-            // Sets the result to the dog age, using calculations above
-            setResult(`Dog age: ${dogAge.toFixed(2)} years`);
+            const resultText = `So I'm ${dogAge.toFixed(2)} years old then?  Interesting how that works...`;
+            typeText(resultText, 60); // Adjust speed as needed
         } else {
-            setResult("Please enter a valid response. (Positive numbers)")
+            typeText("Hey dude!  I can't be that age!  Be for real!", 60);
         }
     };
 
     return (
-        <>{/* Form for age input and submission */}
+        <>
             <form onSubmit={handleSubmit}>
                 <section>
                     <label htmlFor="age">Age:</label>
                     <input
-                    type="number"
-                    id="age"
-                    value={age}
-                    placeholder="Enter age in years..."
-                    onChange={handleAgeChange}
+                        type="number"
+                        id="age"
+                        value={age}
+                        placeholder="Enter age in years..."
+                        onChange={handleAgeChange}
                     />
                 </section>
-                <button type="submit">Calculate</button>
+                <button type="submit" disabled={isAnimating}>Calculate</button> {/* Disable button when animating */}
             </form>
-            {/* An output box to display results */}
             <div className="output-box">
-                {result}
+                <img src={dog} alt="Dog" className="dog"/>
+                <div className="text-bubble">
+                    {displayText}
+                </div>
             </div>
         </>
     );
