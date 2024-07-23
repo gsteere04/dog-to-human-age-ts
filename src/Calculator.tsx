@@ -38,7 +38,7 @@ const Calculator: React.FC = () => {
         if (typeof age === "number" && age > 0) {
             const logAge = Math.log(age);
             const dogAge = 16 * logAge + 31;
-            const resultText = `So I'm ${dogAge.toFixed(2)} years old then?  Interesting how that works...`;
+            const resultText = `So I'm ${dogAge.toFixed(0)} years old then?  Interesting how that works...`;
             typeText(resultText, 60); // Adjust speed as needed
         } else {
             typeText("Hey dude!  I can't be that age!  Be for real!", 60);

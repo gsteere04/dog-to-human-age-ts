@@ -89,7 +89,7 @@ body {
     padding: 10px;
     border-radius: 10px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    font-size: 16px;
+    font-size: 22px;
     color: #333;
     border: 2px solid #333; /* Optional: adds a border to the text bubble */
     white-space: nowrap; /* Prevents text from wrapping */
